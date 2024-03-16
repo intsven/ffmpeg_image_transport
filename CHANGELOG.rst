@@ -3,6 +3,13 @@
 Changelog for package ffmpeg_image_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* use appropriate header for cv_bridge
+* cleaned up includes
+* change build to test dependency
+* Contributors: Bernd Pfrommer
+
 1.2.1 (2024-03-11)
 ------------------
 * added documentation and improved cmake exporting
