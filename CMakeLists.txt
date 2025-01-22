@@ -96,6 +96,13 @@ target_link_libraries(test_encoder ${LIBRARY_NAME})
 target_include_directories(test_encoder PRIVATE include)
 ament_target_dependencies(test_encoder cv_bridge rclcpp sensor_msgs ffmpeg_image_transport_msgs)
 
+add_executable(test_subscriber
+  test/test_subscriber.cpp)
+
+target_link_libraries(test_subscriber ${LIBRARY_NAME})
+target_include_directories(test_subscriber PRIVATE include)
+ament_target_dependencies(test_subscriber cv_bridge rclcpp sensor_msgs ffmpeg_image_transport_msgs)
+
 
 ament_export_dependencies(
   OpenCV
@@ -117,6 +124,10 @@ install(TARGETS ${LIBRARY_NAME}
   INCLUDES DESTINATION include)
 
 install(TARGETS test_encoder
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+install(TARGETS test_subscriber
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
