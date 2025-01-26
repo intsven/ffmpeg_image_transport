@@ -64,8 +64,10 @@ add_library(
   SHARED
   src/ffmpeg_publisher.cpp
   src/ffmpeg_subscriber.cpp
+  src/ffmpeg_subscriber_segments.cpp
   src/ffmpeg_encoder.cpp
   src/ffmpeg_decoder.cpp
+  src/ffmpeg_decoder_segments.cpp
   src/tdiff.cpp
   src/utils.cpp
   src/manifest.cpp)

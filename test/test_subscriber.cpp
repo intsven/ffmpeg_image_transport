@@ -16,6 +16,7 @@
 #include <unistd.h>
 
 #include <ffmpeg_image_transport/ffmpeg_encoder.hpp>
+#include <ffmpeg_image_transport/ffmpeg_subscriber_segments.hpp>
 #include <opencv2/imgcodecs/imgcodecs.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
@@ -25,34 +26,13 @@ void packetReady(const ffmpeg_image_transport::FFMPEGPacketConstPtr & pkt)
   std::cout << " got packet of size: " << pkt->data.size() << std::endl;
 }
 
-void test_encoder(const std::string & codec, int numFrames)
+void test_subscriber(const std::string & codec, int numFrames)
 {
-  ffmpeg_image_transport::FFMPEGEncoder enc;
-  enc.setCodec(codec);
-  enc.setProfile("main");
-  enc.setPreset("slow");
-  enc.setQMax(10);
-  enc.setBitRate(8242880);
-  enc.setGOPSize(2);
-  enc.setFrameRate(100, 1);
-  const int width = 1920;  // must be mult of 64 for some codecs!
-  const int height = 1080;
-
-  cv::Mat mat = cv::Mat::zeros(height, width, CV_8UC3);
-  if (!enc.initialize(mat.cols, mat.rows, packetReady)) {
-    std::cerr << "failed to initialize encoder!" << std::endl;
-    return;
-  }
-  for (int i = 0; i < numFrames; i++) {
-    mat = cv::Mat::zeros(height, width, CV_8UC3);  // clear image
-    cv::putText(
-      mat, std::to_string(i), cv::Point(mat.cols / 2, mat.rows / 2), cv::FONT_HERSHEY_COMPLEX,
-      2 /* font size */, cv::Scalar(255, 0, 0) /* col */, 2 /* weight */);
-    const rclcpp::Time t = rclcpp::Clock().now();
-    std_msgs::msg::Header header;
-    header.stamp = t;
-    enc.encodeImage(mat, header, t);
-  }
+  ffmpeg_image_transport::FFMPEGSubscriberSegments sub;
+  
+  // Print out codec and number of frames
+  std::cout << "codec: " << codec << std::endl;
+  std::cout << "numFrames: " << numFrames << std::endl;
 }
 
 int main(int argc, char ** argv)
@@ -76,6 +56,6 @@ int main(int argc, char ** argv)
   }
   // sample usage: ./test_encoder -c libx264
 
-  test_encoder(codec, numFrames);
+  test_subscriber(codec, numFrames);
   return (0);
 }

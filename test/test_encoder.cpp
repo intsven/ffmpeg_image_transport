@@ -74,6 +74,7 @@ int main(int argc, char ** argv)
         return (-1);
     }
   }
+  // sample usage: ./test_encoder -c libx264
 
   test_encoder(codec, numFrames);
   return (0);
